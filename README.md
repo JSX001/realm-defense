@@ -8,7 +8,7 @@ The realm is being raided. Militia, scout cavalry, paladins, mangonels and sappe
 
 ## Play it
 
-**[→ Play in your browser](https://YOUR-GITHUB-USERNAME.github.io/realm-defense/)**
+**[→ Play in your browser](https://JSX001.github.io/realm-defense/)**
 
 No install required. Best on desktop with a mouse. Progress saves to your browser's localStorage automatically.
 
@@ -90,7 +90,7 @@ To set it up on a fresh fork:
 1. Fork or clone this repo to your GitHub account.
 2. In the new repo, open **Settings → Pages**, set **Source** to **GitHub Actions** (not "Deploy from a branch").
 3. Edit `.github/workflows/deploy.yml`. Find the line `DEPLOY_BASE: /realm-defense/` and change `realm-defense` to match your repo name.
-4. Push any commit to `main`. The Actions tab will show the build running. Within ~2 minutes the site is live at `https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/`.
+4. Push any commit to `main`. The Actions tab will show the build running. Within ~2 minutes the site is live at `https://JSX001.github.io/realm-defense/`.
 
 The repo must be public for free GitHub Pages, OR you need a paid GitHub plan for private-repo Pages (and your players will need access to the repo to view it — usually not what you want).
 
