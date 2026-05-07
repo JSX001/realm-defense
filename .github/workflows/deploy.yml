@@ -1,0 +1,70 @@
+# Builds and deploys the game to GitHub Pages on every push to main.
+#
+# Setup needed (once, in repo settings):
+#   Settings → Pages → Source: GitHub Actions
+#
+# How it works:
+#   1. Checkout the code
+#   2. Install Node + dependencies
+#   3. Build the Vite project with DEPLOY_BASE matching the repo name, so all
+#      asset URLs are prefixed with /realm-defense/ for github.io hosting.
+#   4. Upload the dist/ folder as a Pages artifact and deploy it.
+
+name: Deploy to GitHub Pages
+
+on:
+  # Auto-deploy on every push to main.
+  push:
+    branches: [main]
+  # Also let you trigger manually from the Actions tab.
+  workflow_dispatch:
+
+# Required permissions for the Pages deploy action.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Cancel in-progress deploys when a new push lands; only the latest matters.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        # DEPLOY_BASE must match the repo name with leading and trailing slash.
+        # If you fork and rename the repo, change this value to /your-repo-name/.
+        env:
+          DEPLOY_BASE: /realm-defense/
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
